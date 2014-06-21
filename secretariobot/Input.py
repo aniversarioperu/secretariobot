@@ -14,6 +14,7 @@ class Input:
         self.tweet_id = tweet_id
         self.input_string = self.get_status(tweet_id)
         self.clean_string = self.clean(self.input_string)
+        self.reply_to_user = self.is_reply(tweet_id)
 
     def clean(self, input_string):
         print "[DEBUG] string to clean: ", input_string
@@ -41,4 +42,12 @@ class Input:
         return status
 
     def is_reply(self, tweet_id):
-        return "yes"
+        print "[DEBUG] tweet_id: ", tweet_id
+        oauth = api.get_oauth()
+        url = "https://api.twitter.com/1.1/statuses/show.json"
+        payload = {
+           'id': tweet_id,
+        }
+        r = requests.get(url=url, auth=oauth, params=payload)
+        print "[DEBUG] in_reply_to_screen_name: ", r.json()['in_reply_to_screen_name']
+        return r.json()['in_reply_to_screen_name']

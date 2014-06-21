@@ -25,6 +25,14 @@ class InputTest(unittest.TestCase):
 
     def test_is_reply(self):
         tweet_id = "479726791259860992"
+        obj = Input(tweet_id)
+        result = obj.reply_to_user
+        self.assertEqual(result, "AniversarioPeru")
+
+        tweet_id = "479994881960837120"
+        obj = Input(tweet_id)
+        result = obj.reply_to_user
+        self.assertEqual(result, None)
 
 
 if __name__ == "__main__":
