@@ -1,4 +1,4 @@
-from setuptools import setup
+from distutils.core import setup
 
 
 setup(
@@ -24,7 +24,7 @@ setup(
         ("Operating System :: OS Independent"),
         ("Environment :: Console"),
     ],
-    install_requires=[],
+    install_requires=['nltk'],
     packages=['secretariobot'],
 )
 
