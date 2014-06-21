@@ -1,5 +1,6 @@
 from secretariobot import Input
 
+
 def main():
     print "Hello"
 

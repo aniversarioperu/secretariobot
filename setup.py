@@ -24,7 +24,6 @@ setup(
         ("Operating System :: OS Independent"),
         ("Environment :: Console"),
     ],
-    install_requires=['nltk'],
+    #install_requires=['nltk'],
     packages=['secretariobot'],
 )
-
