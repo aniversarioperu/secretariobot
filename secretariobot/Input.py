@@ -12,9 +12,13 @@ class Input:
 
     def __init__(self, tweet_id):
         self.tweet_id = tweet_id
+        self.oauth = self.connect_twitter()
         self.input_string = self.get_status(tweet_id)
         self.clean_string = self.clean(self.input_string)
         self.reply_to_user = self.is_reply(tweet_id)
+
+    def connect_twitter(self):
+        return api.get_oauth()
 
     def clean(self, input_string):
         print "[DEBUG] string to clean: ", input_string
@@ -30,12 +34,11 @@ class Input:
         return out_string
 
     def get_status(self, tweet_id):
-        oauth = api.get_oauth()
         url = "https://api.twitter.com/1.1/statuses/show.json"
         payload = {
            'id': tweet_id,
         }
-        r = requests.get(url=url, auth=oauth, params=payload)
+        r = requests.get(url=url, auth=self.oauth, params=payload)
         print "[DEBUG] request: ", r.text[0:140] + "..."
         status = r.json()['text']
         print "[DEBUG] status: ", status
@@ -43,11 +46,13 @@ class Input:
 
     def is_reply(self, tweet_id):
         print "[DEBUG] tweet_id: ", tweet_id
-        oauth = api.get_oauth()
         url = "https://api.twitter.com/1.1/statuses/show.json"
         payload = {
            'id': tweet_id,
         }
-        r = requests.get(url=url, auth=oauth, params=payload)
-        print "[DEBUG] in_reply_to_screen_name: ", r.json()['in_reply_to_screen_name']
+        r = requests.get(url=url, auth=self.oauth, params=payload)
+
+        debug = "[DEBUG] in_reply_to_screen_name: "
+        debug += str(r.json()['in_reply_to_screen_name'])
+        print debug
         return r.json()['in_reply_to_screen_name']
